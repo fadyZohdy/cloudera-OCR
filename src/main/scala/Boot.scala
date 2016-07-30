@@ -21,7 +21,9 @@ object Boot extends App{
   val sc = new SparkContext(conf)
 
   val files = sc.binaryFiles("/run/media/droidman/Data/medstreamig_demo")
-  val  words = files.map(OCRExtractor.convertFunc(_)).foreach{ clearance =>
+
+  //convert function takes a pdf file and returns a DeviceClearance object to be inserted in cassandra and elastic
+  files.map(OCRExtractor.convertFunc(_)).foreach{ clearance =>
 
     CassandraDAO.Clearance.store(clearance)
 

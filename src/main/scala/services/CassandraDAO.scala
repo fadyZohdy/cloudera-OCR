@@ -24,11 +24,9 @@ import scala.concurrent.duration._
 
   object DB extends Defaults.connector.Connector{
 
-
     def createTables(): Unit = {
       Await.result(CassandraDAO.autocreate.future(), 5000 millis)
     }
-
 
   }
 

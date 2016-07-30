@@ -26,7 +26,7 @@ object WebService extends App{
   implicit val materializer = ActorMaterializer()
 
   val route =
-    path("query"){
+    path("/"){
       post{
         parameter("query"){q =>
           val result = ElasticDAO.client.execute{

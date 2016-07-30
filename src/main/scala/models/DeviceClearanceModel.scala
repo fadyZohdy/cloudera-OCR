@@ -14,6 +14,8 @@ object DeviceClearanceModel {
   class DeviceClearnace extends CassandraTable[ConcreteDeviceClearanceTable, entities.DeviceClearnace] {
 
     object fileName extends StringColumn(this)
+    object submitter_info extends StringColumn(this)
+    object case_num extends StringColumn(this)
     object regNum extends StringColumn(this) with PartitionKey[String]
     object regName extends StringColumn(this)
     object regClass extends StringColumn(this)
@@ -21,17 +23,21 @@ object DeviceClearanceModel {
     object dated extends StringColumn(this)
     object received extends StringColumn(this)
     object deviceName extends StringColumn(this)
+    object approved extends StringColumn(this)
 
     override def fromRow(row: Row): entities.DeviceClearnace = {
       DeviceClearnace(
         fileName(row),
+        submitter_info(row),
+        case_num(row),
         regNum(row),
         regName(row),
         regClass(row),
         productCode(row),
         dated(row),
         received(row),
-        deviceName(row)
+        deviceName(row),
+        approved(row)
       )
     }
   }
@@ -42,6 +48,8 @@ object DeviceClearanceModel {
 
     def store(clearance: entities.DeviceClearnace): Future[ResultSet] = {
       insert.value(_.fileName, clearance.fileName)
+        .value(_.submitter_info, clearance.submitter_info)
+        .value(_.case_num, clearance.case_num)
         .value(_.regNum, clearance.regNum)
         .value(_.regName, clearance.regName)
         .value(_.regClass, clearance.regClass)
@@ -49,6 +57,7 @@ object DeviceClearanceModel {
         .value(_.dated, clearance.dated)
         .value(_.received, clearance.received)
         .value(_.deviceName, clearance.deviceName)
+        .value(_.approved, clearance.approved)
         .consistencyLevel_=(ConsistencyLevel.ONE)
         .future()
     }

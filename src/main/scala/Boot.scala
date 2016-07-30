@@ -26,7 +26,7 @@ object Boot extends App{
     CassandraDAO.Clearance.store(clearance)
 
       ElasticDAO.client.execute {
-        index into "medstreaming" / "clearances" fields (
+        index into "medstreaming" / "clearances" id clearance.regNum fields (
           "regNum" -> clearance.regNum,
           "deviceName" -> clearance.deviceName
           )
